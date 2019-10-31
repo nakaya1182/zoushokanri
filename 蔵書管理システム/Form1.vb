@@ -55,7 +55,7 @@ Public Class Form1
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Dim Con As New System.Data.SqlClient.SqlConnection
-        Dim sum As Object
+        Dim total As Object
         '接続先指定
         Con.ConnectionString =
             "Data Source = DESKTOP-Q1GQLT9\SQLEXPRESS;" &
@@ -67,8 +67,104 @@ Public Class Form1
         command.CommandText = "declare @result as integer
             exec @result = BookPageSum
             select @result as result"
-        sum = command.ExecuteScalar()
+        total = command.ExecuteScalar()
         Con.Close()
-        Label1.Text = sum.ToString
+        Label1.Text = total.ToString
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Dim Con As New System.Data.SqlClient.SqlConnection
+        Dim sum As Object
+        '接続先指定
+        Con.ConnectionString =
+            "Data Source = DESKTOP-Q1GQLT9\SQLEXPRESS;" &
+            "Initial Catalog = BookManagement;" &
+            "Integrated Security = SSPI"
+        'データベースをオープン
+        Con.Open()
+
+        Dim command As System.Data.SqlClient.SqlCommand = Con.CreateCommand()
+        Dim dt As DataTable = New DataTable()
+        Dim da As SqlDataAdapter = New SqlDataAdapter("SELECT 著者,SUM(ページ) FROM BookInfoView GROUP BY 著者", Con)
+        da.Fill(dt)
+        DataGridView1.DataSource = dt
+        Con.Close()
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim Con As New System.Data.SqlClient.SqlConnection
+        Dim sum As Object
+        '接続先指定
+        Con.ConnectionString =
+            "Data Source = DESKTOP-Q1GQLT9\SQLEXPRESS;" &
+            "Initial Catalog = BookManagement;" &
+            "Integrated Security = SSPI"
+        'データベースをオープン
+        Con.Open()
+
+        Dim command As System.Data.SqlClient.SqlCommand = Con.CreateCommand()
+        Dim dt As DataTable = New DataTable()
+        Dim da As SqlDataAdapter = New SqlDataAdapter("SELECT 著者,AVG(ページ) FROM BookInfoView GROUP BY 著者", Con)
+        da.Fill(dt)
+        DataGridView1.DataSource = dt
+        Con.Close()
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        Dim Con As New System.Data.SqlClient.SqlConnection
+        Dim sum As Object
+        '接続先指定
+        Con.ConnectionString =
+            "Data Source = DESKTOP-Q1GQLT9\SQLEXPRESS;" &
+            "Initial Catalog = BookManagement;" &
+            "Integrated Security = SSPI"
+        'データベースをオープン
+        Con.Open()
+
+        Dim command As System.Data.SqlClient.SqlCommand = Con.CreateCommand()
+        Dim dt As DataTable = New DataTable()
+        Dim da As SqlDataAdapter = New SqlDataAdapter("SELECT 著者,MAX(ページ) FROM BookInfoView GROUP BY 著者", Con)
+        da.Fill(dt)
+        DataGridView1.DataSource = dt
+        Con.Close()
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Dim Con As New System.Data.SqlClient.SqlConnection
+        Dim sum As Object
+        '接続先指定
+        Con.ConnectionString =
+            "Data Source = DESKTOP-Q1GQLT9\SQLEXPRESS;" &
+            "Initial Catalog = BookManagement;" &
+            "Integrated Security = SSPI"
+        'データベースをオープン
+        Con.Open()
+
+        Dim command As System.Data.SqlClient.SqlCommand = Con.CreateCommand()
+        Dim dt As DataTable = New DataTable()
+        Dim da As SqlDataAdapter = New SqlDataAdapter("SELECT 著者,MIN(ページ) FROM BookInfoView GROUP BY 著者", Con)
+        da.Fill(dt)
+        DataGridView1.DataSource = dt
+        Con.Close()
+    End Sub
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Dim Con As New System.Data.SqlClient.SqlConnection
+        '接続先指定
+        Con.ConnectionString =
+            "Data Source = DESKTOP-Q1GQLT9\SQLEXPRESS;" &
+            "Initial Catalog = BookManagement;" &
+            "Integrated Security = SSPI"
+
+        'データベースをオープン
+        Con.Open()
+        'SQLクエリー文が格納される変数commandの作成
+        'テーブル作成
+        Dim command As System.Data.SqlClient.SqlCommand = Con.CreateCommand()
+        Dim dt As DataTable = New DataTable()
+        Dim da As SqlDataAdapter = New SqlDataAdapter("select * from BookInfoView", Con)
+        da.Fill(dt)
+        DataGridView1.DataSource = dt
+        Con.Close()
     End Sub
 End Class
